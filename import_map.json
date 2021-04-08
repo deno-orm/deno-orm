@@ -1,0 +1,7 @@
+{
+  "imports" : {
+    "@postgres": "https://deno.land/x/postgres@v0.10.0/mod.ts",
+    "@postgres/client": "https://deno.land/x/postgres@v0.10.0/client.ts",
+    "@postgres/connection": "https://deno.land/x/postgres@v0.10.0/connection/connection.ts"
+  }
+}
