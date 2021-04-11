@@ -4,11 +4,6 @@ import { QueryBuilder } from "../querybuilder/QueryBuilder.ts";
 import { ConnectionOptions } from "./ConnectionOptions.ts";
 
 export class Connection {
-
-    queryBuilder: QueryBuilder;
-
-    queryRunner: QueryBuilder;
-
     options: ConnectionOptions;
 
     driver: Drivers;
