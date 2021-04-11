@@ -1,21 +1,18 @@
-import {ConnectionOptions} from "../../connection/ConnectionOptions.ts";
 import {Pool} from '@postgres';
-import {PoolClient} from "@postgres/client";
-import {DetailedQueryResult, QueryResult} from "../../interface/QueryResult.ts";
+import {ConnectionOptions} from "../../connection/ConnectionOptions.ts";
+import {PostgresQueryRunner} from "./PostgresQueryRunner.ts";
 
 const POOL_MAX_SIZE = 1;
 
-interface QueryOptions {
-    detail?: boolean;
-}
-
 export class PostgresDriver {
     pool: Pool;
-    options: ConnectionOptions
+
+    options: ConnectionOptions;
+
     constructor(options: ConnectionOptions) {
         this.options = options;
 
-        this.pool = this.createPool()
+        this.pool = this.createPool();
     }
 
     protected createPool(): Pool {
@@ -29,16 +26,11 @@ export class PostgresDriver {
         }, POOL_MAX_SIZE);
     }
 
-    public async query<T>(query: string, options?: QueryOptions): Promise<QueryResult | DetailedQueryResult> {
-        const poolConnection: PoolClient = await this.pool.connect();
+    public createQueryRunner() {
+        return new PostgresQueryRunner(this);
+    }
 
-        const queryObjectResult = await poolConnection.queryObject(query);
-        poolConnection.release();
-
-        const {rows, rowDescription, rowCount} = queryObjectResult
-
-        return options?.detail ?
-            {rows, rowDescription,  rowCount: rowCount || 0} :
-            {rows, rowCount: rowCount || 0};
+    public async close(): Promise<void> {
+        await this.pool.end()
     }
 }

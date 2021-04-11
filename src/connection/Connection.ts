@@ -1,8 +1,14 @@
-import {ConnectionOptions} from "./ConnectionOptions.ts";
-import {Drivers} from "../driver/Drivers.ts";
-import {Driver} from "../driver/Driver.ts";
+import { Driver } from "../driver/Driver.ts";
+import { Drivers } from "../driver/Drivers.ts";
+import { QueryBuilder } from "../querybuilder/QueryBuilder.ts";
+import { ConnectionOptions } from "./ConnectionOptions.ts";
 
 export class Connection {
+
+    queryBuilder: QueryBuilder;
+
+    queryRunner: QueryBuilder;
+
     options: ConnectionOptions;
 
     driver: Drivers;
@@ -10,17 +16,15 @@ export class Connection {
     constructor(options: ConnectionOptions) {
         this.options = options;
 
-        const driver = new Driver(this.options);
+        this.driver = Driver.connect(this);
 
-        this.driver = driver.connect();
-
-        this.loadMetadata();
     }
 
-    protected loadOptions(): void {
+    createQueryBuilder(tableOrEntity: string): QueryBuilder {
+        return new QueryBuilder(tableOrEntity, this);
     }
 
-    protected async loadMetadata(): Promise<void> {
-        // await this.driver
+    public close(): Promise<void> {
+        return this.driver.close()
     }
-}
+} 

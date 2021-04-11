@@ -1,21 +1,21 @@
-import {ConnectionOptions} from "../connection/ConnectionOptions.ts";
-import {PostgresDriver} from "./postgres/PostgresDriver.ts";
-import {Drivers} from "./Drivers.ts";
+import { Connection } from "../mod.ts";
+import { Drivers } from "./Drivers.ts";
+import { PostgresDriver } from "./postgres/PostgresDriver.ts";
 
 export class Driver {
 
-    options: ConnectionOptions;
+    // connection: Connection;
+    //
+    // constructor(connection: Connection) {
+    //     this.connection = connection;
+    // }
 
-    constructor(options: ConnectionOptions) {
-        this.options = options;
-    }
-
-    connect(): Drivers {
-        const { type } = this.options;
+    static connect(connection: Connection): Drivers {
+        const { type } = connection.options;
 
         switch (type) {
             case "postgres":
-                return new PostgresDriver(this.options);
+                return new PostgresDriver(connection.options);
         }
     }
 }

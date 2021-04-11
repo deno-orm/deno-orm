@@ -1,7 +1,9 @@
 {
-  "imports" : {
+  "imports": {
     "@postgres": "https://deno.land/x/postgres@v0.10.0/mod.ts",
     "@postgres/client": "https://deno.land/x/postgres@v0.10.0/client.ts",
-    "@postgres/connection": "https://deno.land/x/postgres@v0.10.0/connection/connection.ts"
+    "@postgres/connection": "https://deno.land/x/postgres@v0.10.0/connection/connection.ts",
+    "expect": "https://deno.land/x/expect/mod.ts",
+    "reflect": "https://deno.land/x/reflect_metadata@v0.1.12/mod.ts"
   }
 }

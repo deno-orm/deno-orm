@@ -4,6 +4,6 @@ export interface ConnectionOptions {
     password: string;
     database: string;
     port: number;
-    entities: any[];
+    entities: () => void[];
     type: 'postgres';
 }
